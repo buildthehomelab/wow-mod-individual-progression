@@ -1,0 +1,79 @@
+# Keeps `master` an exact copy of upstream's master, and says in an issue (label `upstream`)
+# what `main` is missing and whether it merges without conflicts. See FORK.md.
+name: Upstream sync
+
+on:
+  schedule:
+    - cron: "23 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: upstream-sync
+  cancel-in-progress: false
+
+env:
+  UPSTREAM: https://github.com/ZhengPeiRu21/mod-individual-progression.git
+  GH_TOKEN: ${{ github.token }}
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Mirror upstream master
+        run: |
+          git remote add upstream "$UPSTREAM"
+          git fetch --quiet upstream master
+          # Fast-forward only: master never carries commits of ours, so this can't lose any.
+          git push origin upstream/master:refs/heads/master
+
+      - name: Report what main is missing
+        run: |
+          behind=$(git rev-list --count HEAD..upstream/master)
+          issue=$(gh issue list --label upstream --state open --json number --jq '.[0].number // empty')
+
+          if [ "$behind" -eq 0 ]; then
+            echo "main has everything upstream has."
+            if [ -n "$issue" ]; then
+              gh issue close "$issue" --comment "main has everything upstream has."
+            fi
+            exit 0
+          fi
+
+          git config user.name "upstream-sync"
+          git config user.email "upstream-sync@users.noreply.github.com"
+          if git merge --no-commit --no-ff upstream/master >/dev/null 2>&1; then
+            verdict="It merges into \`main\` without conflicts."
+          else
+            verdict="Merging it into \`main\` **conflicts** in:"$'\n\n'"$(git diff --name-only --diff-filter=U | sed 's/^/- `/; s/$/`/')"
+          fi
+          git merge --abort 2>/dev/null || true
+
+          {
+            echo "Upstream has $behind commit(s) that \`main\` doesn't. \`master\` already has them."
+            echo
+            echo "$verdict"
+            echo
+            echo "To pull them in: branch from \`main\`, \`git merge origin/master\`, open a PR and merge it"
+            echo "with a merge commit (not squash). FORK.md has the details."
+            echo
+            echo '```'
+            git log --oneline --no-decorate -30 HEAD..upstream/master
+            echo '```'
+          } >body.md
+
+          title="Upstream is $behind commit(s) ahead of main"
+          if [ -n "$issue" ]; then
+            gh issue edit "$issue" --title "$title" --body-file body.md
+          else
+            gh label create upstream --color 1d76db --description "New commits upstream" --force
+            gh issue create --title "$title" --label upstream --body-file body.md
+          fi
