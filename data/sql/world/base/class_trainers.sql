@@ -90,8 +90,8 @@ INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`
 -- Priest
 DELETE FROM `trainer_spell` WHERE `TrainerId` = 11 AND `SpellId` IN (21562, 21564, 25314, 25315, 25316, 25392, 27683, 39374);
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`, `VerifiedBuild`) VALUES
-(11,21562,28000,0,0,0,0,0,61,0),      -- book, Prayer of Fortitude (Rank 1), level 48 -> 61
-(11,21564,46000,0,0,21562,0,0,61,0),  -- book, Prayer of Fortitude (Rank 2), level 60 -> 61
+(11,21562,28000,0,0,0,0,0,48,0),      -- book, Prayer of Fortitude (Rank 1), kept at level 48: playerbots only learn from trainers
+(11,21564,46000,0,0,21562,0,0,60,0),  -- book, Prayer of Fortitude (Rank 2), kept at level 60: playerbots only learn from trainers
 (11,25314,65000,0,0,10965,0,0,61,0),  -- book, Greater Heal (Rank 5), level 60 -> 61
 (11,25315,6500,0,0,10929,0,0,61,0),   -- book, Renew (Rank 10), level 60 -> 61
 (11,25316,6500,0,0,10961,0,0,61,0),   -- book, Prayer of Healing (Rank 5), level 60 -> 61
@@ -129,7 +129,7 @@ INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`
 DELETE FROM `trainer_spell` WHERE `TrainerId` = 16 AND `SpellId` IN (10140, 23028, 25304, 25345, 27090, 27127, 28609, 28612, 33717);
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`, `VerifiedBuild`) VALUES
 (16,10140,42000,0,0,10139,0,0,61,0),  -- quest, Conjure Water (Rank 7), level 60 -> 61
-(16,23028,38000,0,0,0,0,0,61,0),      -- book, Arcane Brilliance (Rank 1), level 56 -> 61
+(16,23028,38000,0,0,0,0,0,56,0),      -- book, Arcane Brilliance (Rank 1), kept at level 56: playerbots only learn from trainers
 (16,25304,42000,0,0,10181,0,0,61,0),  -- book, Frostbolt (Rank 11), level 60 -> 61
 (16,25345,42000,0,0,10212,0,0,61,0),  -- book, Arcane Missiles (Rank 8), level 60 -> 61
 (16,27090,150000,0,0,37420,0,0,71,0), -- book, Conjure Water (Rank 9), level 70 -> 71
@@ -157,8 +157,8 @@ DELETE FROM `trainer_spell` WHERE `TrainerId` = 33 AND `SpellId` IN (783, 1066, 
 INSERT INTO `trainer_spell` (`TrainerId`, `SpellId`, `MoneyCost`, `ReqSkillLine`, `ReqSkillRank`, `ReqAbility1`, `ReqAbility2`, `ReqAbility3`, `ReqLevel`, `VerifiedBuild`) VALUES
 (33,783,6000,0,0,0,0,0,30,0), -- Travel Form, level 16 -> 30
 -- (33,1066,900,0,0,0,0,0,16,0), -- Aquatic Form is a quest reward
-(33,21849,23000,0,0,0,0,0,61,0),      -- book, Gift of the Wild (Rank 1), level 50 -> 61
-(33,21850,34000,0,0,21849,0,0,61,0),  -- book, Gift of the Wild (Rank 2), level 60 -> 61
+(33,21849,23000,0,0,0,0,0,50,0),      -- book, Gift of the Wild (Rank 1), kept at level 50: playerbots only learn from trainers
+(33,21850,34000,0,0,21849,0,0,60,0),  -- book, Gift of the Wild (Rank 2), kept at level 60: playerbots only learn from trainers
 (33,25297,34000,0,0,9889,0,0,61,0),   -- book, Healing Touch (Rank 11), level 60 -> 61
 (33,25298,34000,0,0,9876,0,0,61,0),   -- book, Starfire (Rank 7), level 60 -> 61
 (33,25299,34000,0,0,9841,0,0,61,0),   -- book, Rejuvenation (Rank 11), level 60 -> 61
