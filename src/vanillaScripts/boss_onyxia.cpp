@@ -42,10 +42,13 @@ enum Spells
     SPELL_BREATH_S_TO_N             = 18351,
     SPELL_BREATH_E_TO_W             = 18576,
     SPELL_BREATH_W_TO_E             = 18609,
-    SPELL_BREATH_SE_TO_NW           = 18564,
-    SPELL_BREATH_NW_TO_SE           = 18584,
+    // Named after the line each one burns: the fire lands on the spell_target_position rows of
+    // its chain, wherever she is. AzerothCore moved those rows in db_world 2026_09_28_00
+    // ("Onyxia's Deep Breath trails"); 18564 and 18617 now burn the other diagonal.
+    SPELL_BREATH_NE_TO_SW           = 18564,
+    SPELL_BREATH_SE_TO_NW           = 18584,
     SPELL_BREATH_SW_TO_NE           = 18596,
-    SPELL_BREATH_NE_TO_SW           = 18617,
+    SPELL_BREATH_NW_TO_SE           = 18617,
 };
 
 enum Events
@@ -92,17 +95,19 @@ struct sOnyxMove
     float x, y, z, o;
 };
 
+// The flight points, facings and breath of each point are the core's own (boss_onyxia.cpp), so
+// she hovers at the end of the line she is about to burn and flies along it.
 static sOnyxMove OnyxiaMoveData[] =
         {
-                {0, 0, 0, -64.496f, -214.906f, -84.4f, 0.0f}, // south ground
-                {1, 5, SPELL_BREATH_S_TO_N, -64.496f, -214.906f, -60.0f, 0.0f}, // south
-                {2, 6, SPELL_BREATH_SW_TO_NE, -59.809f, -190.758f, -60.0f, 7 * M_PI / 4}, // south-west
-                {3, 7, SPELL_BREATH_W_TO_E, -29.450f, -180.600f, -60.0f, M_PI + M_PI / 2}, // west
-                {4, 8, SPELL_BREATH_NW_TO_SE, 6.895f, -180.246f, -60.0f, M_PI + M_PI / 4}, // north-west
-                {5, 1, SPELL_BREATH_N_TO_S,  22.876f, -217.152f, -60.0f, M_PI}, // north
-                {6, 2, SPELL_BREATH_NE_TO_SW, 10.2191f, -247.912f, -60.0f, 3 * M_PI / 4}, // north-east
-                {7, 3, SPELL_BREATH_E_TO_W, -31.496f, -250.123f, -60.0f, M_PI / 2}, // east
-                {8, 4, SPELL_BREATH_SE_TO_NW, -63.5156f, -240.096f, -60.0f, M_PI / 4}, // south-east
+                {0, 0, 0, -66.3589f, -215.928f, -84.23904f, 0.0f}, // south ground
+                {1, 5, SPELL_BREATH_S_TO_N, -75.387505f, -215.21892f, -58.02298f, 0.0075448f}, // south
+                {2, 6, SPELL_BREATH_SW_TO_NE, -64.04101f, -188.51236f, -59.439896f, 5.549744f}, // south-west
+                {3, 7, SPELL_BREATH_W_TO_E, -15.713689f, -181.3027f, -62.038284f, 4.2037554f}, // west
+                {4, 8, SPELL_BREATH_NW_TO_SE, 11.944992f, -180.16212f, -60.27321f, 3.9242017f}, // north-west
+                {5, 1, SPELL_BREATH_N_TO_S, 25.16067f, -216.08244f, -58.92215f, 3.2004213f}, // north
+                {6, 2, SPELL_BREATH_NE_TO_SW, 12.422047f, -242.43831f, -60.561646f, 2.6292219f}, // north-east
+                {7, 3, SPELL_BREATH_E_TO_W, -14.978153f, -245.48346f, -60.375755f, 2.0324559f}, // east
+                {8, 4, SPELL_BREATH_SE_TO_NW, -63.786427f, -235.2712f, -60.19681f, 0.5779157f}, // south-east
         };
 
 enum Yells
@@ -385,7 +390,8 @@ public:
                     me->SetDisableGravity(true);
                     me->SetOrientation(OnyxiaMoveData[0].o);
                     me->SendMovementFlagUpdate();
-                    me->GetMotionMaster()->MoveTakeoff(11, OnyxiaMoveData[1].x + 1.0f, OnyxiaMoveData[1].y, OnyxiaMoveData[1].z, 12.0f);
+                    // Straight up from the ground point, as before the south flight point moved away from it.
+                    me->GetMotionMaster()->MoveTakeoff(11, OnyxiaMoveData[0].x + 1.0f, OnyxiaMoveData[0].y, OnyxiaMoveData[1].z, 12.0f);
                     bManyWhelpsAvailable = true;
 
                     events.RescheduleEvent(EVENT_END_MANY_WHELPS_TIME, 10s);
@@ -496,7 +502,8 @@ public:
                 case EVENT_START_PHASE_3:
                 {
                     me->SetSpeed(MOVE_RUN, 2.95f, false);
-                    me->GetMotionMaster()->MovePoint(12, OnyxiaMoveData[1].x, OnyxiaMoveData[1].y, OnyxiaMoveData[1].z);
+                    // Back above the ground point, then straight down.
+                    me->GetMotionMaster()->MovePoint(12, OnyxiaMoveData[0].x, OnyxiaMoveData[0].y, OnyxiaMoveData[1].z);
                     break;
                 }
                 case EVENT_PHASE_3_ATTACK:
