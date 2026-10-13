@@ -137,7 +137,7 @@ public:
         {
             handler->PSendSysMessage("{} (instance {}): damage {}, healing {} for {}.",
                 map->GetMapName(), instanceId, Describe(current.power), Describe(current.healing), affected);
-            handler->PSendSysMessage("Realm settings at level 60, less below it: Vanilla damage {:.2f}, healing {:.2f}; TBC damage {:.2f}, healing {:.2f}.",
+            handler->PSendSysMessage("Realm settings: Vanilla damage {:.2f}, healing {:.2f} (at level 60, fading out toward level 10); TBC damage {:.2f}, healing {:.2f}.",
                 sIndividualProgression->vanillaPowerAdjustment, sIndividualProgression->vanillaHealingAdjustment,
                 sIndividualProgression->tbcPowerAdjustment, sIndividualProgression->tbcHealingAdjustment);
             handler->SendSysMessage("Change it here: .ip power $damage [$healing], or .ip power reset.");
