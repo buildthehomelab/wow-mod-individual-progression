@@ -83,6 +83,20 @@ IndividualProgression.TBCHealingAdjustment = 1
 #
 IndividualProgression.BotOnlyAdjustments = 0
 
+# IndividualProgression.InstancePower.GMOnly
+#
+#        Description: The command ".ip power $damage [$healing]" sets the damage and healing factors for the dungeon
+#                     or raid the player is in, in place of the Power and Healing adjustments above. Unlike those,
+#                     a factor is used as typed at every level, for the characters those adjustments apply to
+#                     (not past TBC Tier 5). It lasts until ".ip power reset", an instance reset
+#                     or a restart, and everyone in the instance is told about a change.
+#                     Enable this option to let only game masters change them. Anyone can still look them up with ".ip power".
+#
+#        Default:     0 - Any player
+#                     1 - Game masters only
+#
+IndividualProgression.InstancePower.GMOnly = 0
+
 # IndividualProgression.QuestXPFix
 #
 #        Description: Quest XP for Vanilla and TBC quests was boosted as a catchup mechanism in patches 2.3.0 and 3.0.2

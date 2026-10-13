@@ -1,4 +1,5 @@
 #include "IndividualProgression.h"
+#include "IndividualProgressionInstancePower.h"
 #include "naxxramas_40.h"
 #include "Spell.h"
 
@@ -1415,9 +1416,9 @@ public:
         }
 
         if (!sIndividualProgression->hasPassedProgression(player, PROGRESSION_PRE_TBC))
-            heal *= sIndividualProgression->ComputeVanillaAdjustment(player->GetLevel(), sIndividualProgression->vanillaHealingAdjustment);
+            heal *= IPInstancePower::Healing(player, sIndividualProgression->ComputeVanillaAdjustment(player->GetLevel(), sIndividualProgression->vanillaHealingAdjustment));
         else if (sIndividualProgression->hasPassedProgression(player, PROGRESSION_PRE_TBC) && !sIndividualProgression->hasPassedProgression(player, PROGRESSION_TBC_TIER_5))
-            heal *= sIndividualProgression->tbcHealingAdjustment;
+            heal *= IPInstancePower::Healing(player, sIndividualProgression->tbcHealingAdjustment);
     }
 
     void ModifySpellDamageTaken(Unit* /*target*/, Unit* attacker, int32& damage, SpellInfo const* spellInfo) override
@@ -1442,9 +1443,9 @@ public:
         }
 
         if (!sIndividualProgression->hasPassedProgression(player, PROGRESSION_PRE_TBC))
-            damage *= sIndividualProgression->ComputeVanillaAdjustment(player->GetLevel(), sIndividualProgression->vanillaPowerAdjustment);
+            damage *= IPInstancePower::Power(player, sIndividualProgression->ComputeVanillaAdjustment(player->GetLevel(), sIndividualProgression->vanillaPowerAdjustment));
         else if (sIndividualProgression->hasPassedProgression(player, PROGRESSION_PRE_TBC) && !sIndividualProgression->hasPassedProgression(player, PROGRESSION_TBC_TIER_5))
-            damage *= sIndividualProgression->tbcPowerAdjustment;
+            damage *= IPInstancePower::Power(player, sIndividualProgression->tbcPowerAdjustment);
     }
 
     void ModifyMeleeDamage(Unit* /*target*/, Unit* attacker, uint32& damage) override
@@ -1465,9 +1466,9 @@ public:
         }
 
         if (!sIndividualProgression->hasPassedProgression(player, PROGRESSION_PRE_TBC))
-            damage *= sIndividualProgression->ComputeVanillaAdjustment(player->GetLevel(), sIndividualProgression->vanillaPowerAdjustment);
+            damage *= IPInstancePower::Power(player, sIndividualProgression->ComputeVanillaAdjustment(player->GetLevel(), sIndividualProgression->vanillaPowerAdjustment));
         else if (sIndividualProgression->hasPassedProgression(player, PROGRESSION_PRE_TBC) && !sIndividualProgression->hasPassedProgression(player, PROGRESSION_TBC_TIER_5))
-            damage *= sIndividualProgression->tbcPowerAdjustment;
+            damage *= IPInstancePower::Power(player, sIndividualProgression->tbcPowerAdjustment);
     }
 
     void ModifyPeriodicDamageAurasTick(Unit* /*target*/, Unit* attacker, uint32& damage, SpellInfo const* spellInfo) override
@@ -1499,9 +1500,9 @@ public:
         }
 
         if (!sIndividualProgression->hasPassedProgression(player, PROGRESSION_PRE_TBC))
-            damage *= sIndividualProgression->ComputeVanillaAdjustment(player->GetLevel(), sIndividualProgression->vanillaPowerAdjustment);
+            damage *= IPInstancePower::Power(player, sIndividualProgression->ComputeVanillaAdjustment(player->GetLevel(), sIndividualProgression->vanillaPowerAdjustment));
         else if (sIndividualProgression->hasPassedProgression(player, PROGRESSION_PRE_TBC) && !sIndividualProgression->hasPassedProgression(player, PROGRESSION_TBC_TIER_5))
-            damage *= sIndividualProgression->tbcPowerAdjustment;
+            damage *= IPInstancePower::Power(player, sIndividualProgression->tbcPowerAdjustment);
     }
 
 };
