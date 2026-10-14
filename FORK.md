@@ -49,7 +49,6 @@ They exist to keep that merge boring.
 
 | Change | Files | Upstream |
 | --- | --- | --- |
-| War Effort Commanders report a player's progress; text for 'Complete the War Effort' | `src/vanillaScripts/aq_we_progress.cpp`, `data/sql/world/base/aq_war_effort.sql` | [#1307](https://github.com/ZhengPeiRu21/mod-individual-progression/pull/1307) |
 | Bot and excluded account checks are answered from a per-account cache instead of a login database query and a regex compile per damage or heal event | `src/IndividualProgression.cpp`, `src/IndividualProgression.h`, `src/IndividualProgressionPlayer.cpp`, `conf/individualProgression.conf.dist` | [#1308](https://github.com/ZhengPeiRu21/mod-individual-progression/pull/1308) |
 | Level 60 Onyxia hovers at and flies along the line her Deep Breath burns (the core moved the trails) | `src/vanillaScripts/boss_onyxia.cpp` | not sent yet (branch `claude/onyxia-deep-breath-trails-upstream`) |
 | `.ip power`: damage and healing factor per instance, set in game (no restart). When merging upstream, check that every read of the four `*PowerAdjustment` / `*HealingAdjustment` values in the hooks is still wrapped in `IPInstancePower::Power` / `Healing` | `src/IndividualProgressionInstancePower.*`, `src/IndividualProgressionPlayer.cpp` (the eight reads), `data/sql/world/base/cs_individualProgression_power.sql`, `conf/individualProgression.conf.dist` (`InstancePower.GMOnly`) | fork only |
