@@ -18,6 +18,9 @@ concurrency:
 env:
   UPSTREAM: https://github.com/ZhengPeiRu21/mod-individual-progression.git
   GH_TOKEN: ${{ github.token }}
+  # gh picks a remote named "upstream" as its default repo, so after `git remote add upstream`
+  # it would read and label the parent repo instead of this fork.
+  GH_REPO: ${{ github.repository }}
 
 jobs:
   sync:
