@@ -185,7 +185,6 @@ void IndividualProgression::UpdateAccountReputation(uint32 factionId, uint32 acc
         return;
 
     Group* group = player->GetGroup();
-    uint32 account = player->GetSession()->GetAccountId();
     std::string factionName = sFactionStore.LookupEntry(factionId)->name[0];
 
     if (!group)
