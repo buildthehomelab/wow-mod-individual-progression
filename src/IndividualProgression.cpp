@@ -387,10 +387,26 @@ void IndividualProgression::LoadAccountRegexes()
     std::regex excluded = compile("IndividualProgression.ExcludedAccountsRegex", excludedAccountsRegex);
     std::regex bot = compile("IndividualProgression.BotAccountsRegex", botAccountsRegex);
 
+    // Match every existing account here, in one query at config load, so logins and the
+    // damage and healing hooks (map threads) never wait on the login database. Accounts
+    // created later are matched once, on first use.
+    std::unordered_map<uint32, AccountMatch> matches;
+    if (QueryResult result = LoginDatabase.Query("SELECT id, username FROM account"))
+    {
+        do
+        {
+            Field* fields = result->Fetch();
+            std::string const accountName = fields[1].Get<std::string>();
+            AccountMatch& match = matches[fields[0].Get<uint32>()];
+            match.excluded = std::regex_match(accountName, excluded);
+            match.bot = std::regex_match(accountName, bot);
+        } while (result->NextRow());
+    }
+
     std::unique_lock<std::shared_mutex> lock(_accountMatchLock);
     _excludedAccountsRegex = std::move(excluded);
     _botAccountsRegex = std::move(bot);
-    _accountMatchCache.clear();
+    _accountMatchCache = std::move(matches);
 }
 
 IndividualProgression::AccountMatch IndividualProgression::GetAccountMatch(uint32 accountId)
