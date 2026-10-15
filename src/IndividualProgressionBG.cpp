@@ -114,6 +114,8 @@ public:
             case BATTLEGROUND_WS:
                 player->CastSpell(player, SPELL_WS_QUEST_REWARD, true);
                 break;
+            default:
+                break;
             }
         }
     }
