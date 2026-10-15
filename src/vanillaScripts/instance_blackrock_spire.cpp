@@ -16,6 +16,7 @@
  */
 
 #include "blackrock_spire.h"
+#include "IndividualProgressionAttunement.h"
 #include "Cell.h"
 #include "CellImpl.h"
 #include "GridNotifiers.h"
@@ -832,7 +833,7 @@ public:
                     }
                 }
 
-                if (canOpenDoor && player->HasItemCount(ITEM_SEAL_OF_ASCENSION, 1))
+                if (canOpenDoor && IPAttunement::UpperBlackrockSpire(player))
                 {
                     instance->SetData(AREATRIGGER_DRAGONSPIRE_HALL, DATA_UBRS_DOOR_OPEN);
                 }

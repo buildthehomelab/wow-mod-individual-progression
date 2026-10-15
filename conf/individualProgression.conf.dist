@@ -98,6 +98,22 @@ IndividualProgression.BotOnlyAdjustments = 0
 #
 IndividualProgression.InstancePower.GMOnly = 0
 
+# IndividualProgression.Attunement.OnyxiaAchievement
+# IndividualProgression.Attunement.UpperBlackrockSpireAchievement
+#
+#        Description: Level 60 Onyxia's Lair and the Upper Blackrock Spire door let a character in once they have
+#                     finished the attunement quest (Drakefire Amulet or Blood of the Black Dragon Champion for
+#                     Onyxia, Seal of Ascension for UBRS); the key in their bags still counts as well.
+#                     Set an achievement id here to also count that achievement as attuned. Characters who
+#                     handed the quest in before the achievement existed get it at their next login.
+#                     The achievement itself (achievement_dbc / achievement_criteria_dbc rows, and the client's
+#                     Achievement.dbc) is not part of this module.
+#
+#        Default:     0 - No achievement
+#
+IndividualProgression.Attunement.OnyxiaAchievement = 0
+IndividualProgression.Attunement.UpperBlackrockSpireAchievement = 0
+
 # IndividualProgression.QuestXPFix
 #
 #        Description: Quest XP for Vanilla and TBC quests was boosted as a catchup mechanism in patches 2.3.0 and 3.0.2

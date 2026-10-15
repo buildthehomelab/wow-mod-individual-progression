@@ -16,6 +16,7 @@
  */
 
 #include "IndividualProgression.h"
+#include "IndividualProgressionAttunement.h"
 #include "ScriptMgr.h"
 #include "ScriptedCreature.h"
 #include "SpellInfo.h"
@@ -152,9 +153,9 @@ public:
                 allowed = false;
             }
 
-            if (!player->HasItemCount(ITEM_DRAKEFIRE_AMULET))
+            if (!IPAttunement::Onyxia(player))
             {
-                handler.PSendSysMessage("You need to have the Drakefire Amulet in your inventory.");
+                handler.PSendSysMessage("You need to be attuned to Onyxia's Lair (the Drakefire Amulet quest).");
                 allowed = false;
             }
 
@@ -188,12 +189,9 @@ public:
                         handler.PSendSysMessage("|cff00ffff{}|r progression level is too high.", member->GetName());
                         allowed = false;
                     }
-                    if (!member->HasItemCount(ITEM_DRAKEFIRE_AMULET))
+                    if (!IPAttunement::Onyxia(member))
                     {
-                        if (member->getGender() == GENDER_MALE)
-                            handler.PSendSysMessage("|cff00ffff{}|r does not have the Drakefire Amulet in his inventory.", member->GetName());
-                        else 
-                            handler.PSendSysMessage("|cff00ffff{}|r does not have the Drakefire Amulet in her inventory.", member->GetName());
+                        handler.PSendSysMessage("|cff00ffff{}|r is not attuned to Onyxia's Lair.", member->GetName());
 
                         allowed = false;
                     }

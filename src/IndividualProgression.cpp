@@ -3,6 +3,7 @@
 */
 
 #include "IndividualProgression.h"
+#include "IndividualProgressionAttunement.h"
 #include "naxxramas_40.h"
 #include "ReputationMgr.h"
 
@@ -238,7 +239,7 @@ void IndividualProgression::UpdateGroupAttunement(Player* player, std::string lo
 
     if (location == "onyxia40" || location == "onyxia")
     {
-        if (player->HasItemCount(ITEM_DRAKEFIRE_AMULET))
+        if (IPAttunement::Onyxia(player))
         {
             for (GroupReference* itr = group->GetFirstMember(); itr; itr = itr->next())
             {
@@ -252,7 +253,7 @@ void IndividualProgression::UpdateGroupAttunement(Player* player, std::string lo
                     continue;
                 }
 
-                if (!member->HasItemCount(ITEM_DRAKEFIRE_AMULET))
+                if (!IPAttunement::Onyxia(member))
                 {
                     if (member->HasItemCount(ITEM_DRAKEFIRE_AMULET, 1, true))
                     {
@@ -268,7 +269,7 @@ void IndividualProgression::UpdateGroupAttunement(Player* player, std::string lo
         }
         else
         {
-            ChatHandler(player->GetSession()).PSendSysMessage("You must have the Drakefire Amulet in your inventory to use this command.");
+            ChatHandler(player->GetSession()).PSendSysMessage("You must be attuned to Onyxia's Lair to use this command.");
             return;
         }
     }

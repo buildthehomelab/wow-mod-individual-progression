@@ -1,4 +1,5 @@
 #include "IndividualProgression.h"
+#include "IndividualProgressionAttunement.h"
 #include "IndividualProgressionInstancePower.h"
 #include "naxxramas_40.h"
 #include "Spell.h"
@@ -605,7 +606,7 @@ public:
                     return false;
                 if (sIndividualProgression->hasPassedProgression(player, PROGRESSION_TBC_TIER_5)) // death knights
                     return false;
-                if (!player->HasItemCount(ITEM_DRAKEFIRE_AMULET))
+                if (!IPAttunement::Onyxia(player))
                     return false;
             }
  			else // WotLK
