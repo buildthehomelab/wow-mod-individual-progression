@@ -80,11 +80,17 @@ public:
 
     void OnPlayerLogin(Player* player) override
     {
-        if (!sIndividualProgression->enabled || player->IsGameMaster())
+        // Random bots are attuned by the quest anyway; awarding them would only spam their guilds.
+        if (!sIndividualProgression->enabled || player->IsGameMaster() || sIndividualProgression->isBotAccount(player))
             return;
 
-        AwardIfQuestDone(player, onyxiaAchievement, OnyxiaQuestDone(player));
-        AwardIfQuestDone(player, upperBlackrockSpireAchievement, UpperBlackrockSpireQuestDone(player));
+        // A second after login, like the core's own login achievement check: while the client is
+        // still loading it wouldn't show the "achievement earned" toast.
+        player->m_Events.AddEventAtOffset([player]
+        {
+            AwardIfQuestDone(player, onyxiaAchievement, OnyxiaQuestDone(player));
+            AwardIfQuestDone(player, upperBlackrockSpireAchievement, UpperBlackrockSpireQuestDone(player));
+        }, 1s);
     }
 };
 
