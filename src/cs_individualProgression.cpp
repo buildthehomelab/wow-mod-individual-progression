@@ -2,6 +2,7 @@
 #include "ScriptMgr.h"
 #include "Tokenize.h"
 #include "IndividualProgression.h"
+#include "IndividualProgressionAttunement.h"
 #include "naxxramas_40.h"
 
 using namespace Acore::ChatCommands;
@@ -375,7 +376,7 @@ public:
         {
             if (target->GetLevel() <= 70 && ((progressionLevel < PROGRESSION_TBC_TIER_5) || sIndividualProgression->isExcludedAccount(target)))
             {
-                if (target->HasItemCount(ITEM_DRAKEFIRE_AMULET))
+                if (IPAttunement::Onyxia(target))
                 {
                     Group* group = target->GetGroup();
 
@@ -389,7 +390,7 @@ public:
                 }
                 else
                 {
-                    handler->PSendSysMessage("|cff00ffff{}|r does not have a Drakefire Amulet.", playername);
+                    handler->PSendSysMessage("|cff00ffff{}|r is not attuned to Onyxia's Lair.", playername);
                     return false;
                 }
             }
