@@ -18,8 +18,8 @@ using namespace Acore::ChatCommands;
 namespace
 {
     constexpr float MIN_FACTOR = 0.01f;
-    // Full strength at most: the command is open to players, so nothing gets past full strength.
-    constexpr float MAX_FACTOR = 1.0f;
+    // Up to double strength, to make bots stronger than the realm settings for a hard fight.
+    constexpr float MAX_FACTOR = 2.0f;
 
     // A factor that is not set leaves that side on the realm settings.
     struct InstancePower
@@ -175,7 +175,7 @@ public:
 
         if (!IsValidFactor(*values.power) || (healingArg && !IsValidFactor(*healingArg)))
         {
-            handler->PSendSysMessage("Damage and healing must be between {} and {} (full strength).", MIN_FACTOR, MAX_FACTOR);
+            handler->PSendSysMessage("Damage and healing must be between {} and {} (1 = full strength).", MIN_FACTOR, MAX_FACTOR);
             return true;
         }
 
