@@ -420,7 +420,17 @@ public:
 
     bool OnGossipHello(Player* player, GameObject* go) override
     {
-        if ((player->GetQuestStatus(QUEST_BANG_A_GONG) == QUEST_STATUS_REWARDED) || (player->GetQuestStatus(SIMPLY_BANG_A_GONG) == QUEST_STATUS_REWARDED))
+        QuestStatus bangStatus = player->GetQuestStatus(QUEST_BANG_A_GONG);
+        bool gongRung = (bangStatus == QUEST_STATUS_REWARDED) || (player->GetQuestStatus(SIMPLY_BANG_A_GONG) == QUEST_STATUS_REWARDED);
+
+        // A player who rang the gong with 'Simply Bang a Gong!' and later finished the Scepter chain
+        // can still hand in the real 'Bang a Gong!' for the mount and the Scarab Lord title.
+        bool canBangAGong = (bangStatus == QUEST_STATUS_INCOMPLETE) || (bangStatus == QUEST_STATUS_COMPLETE);
+        if (bangStatus == QUEST_STATUS_NONE)
+            if (Quest const* bangQuest = sObjectMgr->GetQuestTemplate(QUEST_BANG_A_GONG))
+                canBangAGong = player->CanTakeQuest(bangQuest, false);
+
+        if (gongRung && !canBangAGong)
         {
             if (auto* gongAI = dynamic_cast<gobject_scarab_gongAI*>(go->AI()))
                 gongAI->OpenGate(player, false);
