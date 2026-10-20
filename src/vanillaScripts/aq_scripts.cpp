@@ -11,6 +11,7 @@
 enum
 {
     QUEST_BANG_A_GONG = 8743,
+    ITEM_SCEPTER_OF_THE_SHIFTING_SANDS = 21175,
 
     GO_GATE_OF_AHN_QIRAJ = 176146,
     GO_GLYPH_OF_AHN_QIRAJ = 176148,
@@ -425,17 +426,17 @@ public:
 
         // A player who rang the gong with 'Simply Bang a Gong!' and later finished the Scepter chain
         // can still hand in the real 'Bang a Gong!' for the mount and the Scarab Lord title.
-        bool canBangAGong = (bangStatus == QUEST_STATUS_INCOMPLETE) || (bangStatus == QUEST_STATUS_COMPLETE);
-        if (bangStatus == QUEST_STATUS_NONE)
+        // It needs the Scepter in the bags, which CanTakeQuest doesn't check.
+        bool canBangAGong = false;
+        if (bangStatus == QUEST_STATUS_NONE && player->HasItemCount(ITEM_SCEPTER_OF_THE_SHIFTING_SANDS))
             if (Quest const* bangQuest = sObjectMgr->GetQuestTemplate(QUEST_BANG_A_GONG))
                 canBangAGong = player->CanTakeQuest(bangQuest, false);
 
-        if (gongRung && !canBangAGong)
-        {
+        if (gongRung)
             if (auto* gongAI = dynamic_cast<gobject_scarab_gongAI*>(go->AI()))
                 gongAI->OpenGate(player, false);
-        }
-        else
+
+        if (!gongRung || canBangAGong)
         {
             player->PrepareQuestMenu(go->GetGUID());
             player->SendPreparedQuest(go->GetGUID());
