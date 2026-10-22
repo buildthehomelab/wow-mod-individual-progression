@@ -27,7 +27,13 @@ Here you can find a list of all the [changes](https://github.com/ZhengPeiRu21/mo
 Options are provided that allow changes to the player experience, based on preference. Please see the config file.
 
 ## How to Install
-Please see [How to Install](https://github.com/ZhengPeiRu21/mod-individual-progression/wiki/How-to-Install)
+Clone this fork into AzerothCore's `modules/` directory as `mod-individual-progression` (the repo is `wow-mod-individual-progression`, default branch `main`):
+
+```
+git clone https://github.com/buildthehomelab/wow-mod-individual-progression.git mod-individual-progression
+```
+
+For the remaining setup steps, please see [How to Install](https://github.com/ZhengPeiRu21/mod-individual-progression/wiki/How-to-Install)
 
 ## Please Note!
 This module uses Player Settings to save individual character progress. *Please ensure that EnablePlayerSettings is set to 1 in worldserver.conf or progress will not be saved!* Also, for item changes to take effect, please ensure *DBC.EnforceItemAttributes is set to 0*! This will allow the module to override item stats with their correct Vanilla stats.
