@@ -885,7 +885,7 @@ INSERT INTO `npc_vendor` (`entry`, `item`, `maxcount`, `incrtime`) VALUES
 (1286, 6529, 0, 0),       -- Edna Mullby, Shiny Bauble
 (1307, 17019, 0, 0),      -- Charys Yserian, Arcane Dust
 (1308, 17019, 0, 0),      -- Owen Vaughn, Arcane Dust
-(1318, 6342, 1, 7200),    -- Jessara Cordell, Formula: Enchant Chest - Minor Mana
+(1318, 6342, 0, 0),       -- Jessara Cordell, Formula: Enchant Chest - Minor Mana
 (1325, 2928, 0, 0),       -- Jasper Fel, Dust of Decay
 (1325, 2930, 0, 0),       -- Jasper Fel, Essence of Pain
 (1325, 3371, 0, 0),       -- Jasper Fel, Empty Vial
@@ -964,7 +964,7 @@ INSERT INTO `npc_vendor` (`entry`, `item`, `maxcount`, `incrtime`) VALUES
 (2626, 16083, 0, 0),      -- Old Man Heming, Expert Fishing - The Bass and You
 (2664, 2692, 0, 0),       -- Kelsey Yance, Hot Spices
 (2664, 3713, 0, 0),       -- Kelsey Yance, Soothing Spices
-(2685, 18651, 1, 43200),  -- Mazk Snipeshot, Schematic: Truesilver Transformer
+(2685, 18651, 0, 0),      -- Mazk Snipeshot, Schematic: Truesilver Transformer
 (2803, 4471, 0, 0),       -- Malygen, Flint and Tinder
 (2805, 16084, 0, 0),      -- Deneb Walker, Expert First Aid - Under Wraps
 (2805, 16112, 0, 0),      -- Deneb Walker, Manual: Heavy Silk Bandage
@@ -982,7 +982,7 @@ INSERT INTO `npc_vendor` (`entry`, `item`, `maxcount`, `incrtime`) VALUES
 (2821, 3713, 0, 0),       -- Keena, Soothing Spices
 (2821, 3777, 0, 0),       -- Keena, Lethargy Root
 (2908, 4471, 0, 0),       -- Grawl, Flint and Tinder
-(3012, 6342, 1, 7200),    -- Nata Dawnstrider, Formula: Enchant Chest - Minor Mana
+(3012, 6342, 0, 0),       -- Nata Dawnstrider, Formula: Enchant Chest - Minor Mana
 (3027, 2692, 0, 0),       -- Naal Mistrunner, Hot Spices
 (3027, 3713, 0, 0),       -- Naal Mistrunner, Soothing Spices
 (3076, 4471, 0, 0),       -- Moorat Longstride, Flint and Tinder
@@ -1026,7 +1026,7 @@ INSERT INTO `npc_vendor` (`entry`, `item`, `maxcount`, `incrtime`) VALUES
 (3334, 8924, 0, 0),       -- Rekkul, Dust of Deterioration
 (3334, 8925, 0, 0),       -- Rekkul, Crystal Vial
 (3335, 17019, 0, 0),      -- Hagrus, Arcane Dust
-(3346, 6342, 1, 7200),    -- Kithas, Formula: Enchant Chest - Minor Mana
+(3346, 6342, 0, 0),       -- Kithas, Formula: Enchant Chest - Minor Mana
 (3350, 4471, 0, 0),       -- Asoran, Flint and Tinder
 (3351, 17019, 0, 0),      -- Magenius, Arcane Dust
 (3367, 2324, 0, 0),       -- Felika, Bleach
@@ -1039,8 +1039,8 @@ INSERT INTO `npc_vendor` (`entry`, `item`, `maxcount`, `incrtime`) VALUES
 (3367, 6529, 0, 0),       -- Felika, Shiny Bauble
 (3400, 2692, 0, 0),       -- Xen'to, Hot Spices
 (3400, 3713, 0, 0),       -- Xen'to, Soothing Spices
-(3413, 16041, 1, 10800),  -- Sovik, Schematic: Thorium Grenade
-(3413, 16042, 1, 10800),  -- Sovik, Schematic: Thorium Widget
+(3413, 16041, 0, 0),      -- Sovik, Schematic: Thorium Grenade
+(3413, 16042, 0, 0),      -- Sovik, Schematic: Thorium Widget
 (3481, 4471, 0, 0),       -- Barg, Flint and Tinder
 (3482, 2692, 0, 0),       -- Tari'qa, Hot Spices
 (3490, 2928, 0, 0),       -- Hula'mahi, Dust of Decay
@@ -1144,8 +1144,8 @@ INSERT INTO `npc_vendor` (`entry`, `item`, `maxcount`, `incrtime`) VALUES
 (4229, 3713, 0, 0),       -- Mythrin'dir, Soothing Spices
 (4229, 3777, 0, 0),       -- Mythrin'dir, Lethargy Root
 (4229, 6260, 0, 0),       -- Mythrin'dir, Blue Dye
-(4226, 13477, 1, 7200),   -- Ulthir, Recipe: Superior Mana Potion
-(4228, 6342, 1, 1800),    -- Vaean, Formula: Enchant Chest - Minor Mana
+(4226, 13477, 0, 0),      -- Ulthir, Recipe: Superior Mana Potion
+(4228, 6342, 0, 0),       -- Vaean, Formula: Enchant Chest - Minor Mana
 (4241, 1179, 0, 0),       -- Mydrannul, Ice Cold Milk
 (4241, 4471, 0, 0),       -- Mydrannul, Flint and Tinder
 (4255, 117, 0, 0),        -- Brogus Thunderbrew, Tough Jerky
@@ -1204,8 +1204,8 @@ INSERT INTO `npc_vendor` (`entry`, `item`, `maxcount`, `incrtime`) VALUES
 (4585, 8923, 0, 0),       -- Ezekiel Graves, Essence of Agony
 (4585, 8924, 0, 0),       -- Ezekiel Graves, Dust of Deterioration
 (4585, 8925, 0, 0),       -- Ezekiel Graves, Crystal Vial
-(4610, 13477, 1, 2700),   -- Algernon, Recipe: Superior Mana Potion
-(4617, 6342, 1, 7200),    -- Thaddeus Webb, Formula: Enchant Chest - Minor Mana
+(4610, 13477, 0, 0),      -- Algernon, Recipe: Superior Mana Potion
+(4617, 6342, 0, 0),       -- Thaddeus Webb, Formula: Enchant Chest - Minor Mana
 (4775, 2324, 0, 0),       -- Felicia Doan, Bleach
 (4775, 2605, 0, 0),       -- Felicia Doan, Green Dye
 (4775, 2692, 0, 0),       -- Felicia Doan, Hot Spices
@@ -1246,7 +1246,7 @@ INSERT INTO `npc_vendor` (`entry`, `item`, `maxcount`, `incrtime`) VALUES
 (5139, 8923, 0, 0),       -- Kurdrum Barleybeard, Essence of Agony
 (5139, 8924, 0, 0),       -- Kurdrum Barleybeard, Dust of Deterioration
 (5151, 17019, 0, 0),      -- Ginny Longberry, Arcane Dust
-(5158, 6342, 1, 7200),    -- Tilli Thistlefuzz, Formula: Enchant Chest - Minor Mana
+(5158, 6342, 0, 0),       -- Tilli Thistlefuzz, Formula: Enchant Chest - Minor Mana
 (5160, 2692, 0, 0),       -- Emrul Riknussun, Hot Spices
 (5160, 3713, 0, 0),       -- Emrul Riknussun, Soothing Spices
 (5163, 2324, 0, 0),       -- Burbik Gearspanner, Bleach
@@ -1263,12 +1263,12 @@ INSERT INTO `npc_vendor` (`entry`, `item`, `maxcount`, `incrtime`) VALUES
 (5169, 8923, 0, 0),       -- Tynnus Venomsprout, Essence of Agony
 (5169, 8924, 0, 0),       -- Tynnus Venomsprout, Dust of Deterioration
 (5169, 8925, 0, 0),       -- Tynnus Venomsprout, Crystal Vial
-(5175, 16041, 1, 10800),  -- Gearcutter Cogspinner, Schematic: Thorium Grenade
-(5175, 16042, 1, 10800),  -- Gearcutter Cogspinner, Schematic: Thorium Widget
+(5175, 16041, 0, 0),      -- Gearcutter Cogspinner, Schematic: Thorium Grenade
+(5175, 16042, 0, 0),      -- Gearcutter Cogspinner, Schematic: Thorium Widget
 (5483, 2692, 0, 0),       -- Erika Tate, Hot Spices
 (5483, 3713, 0, 0),       -- Erika Tate, Soothing Spices
-(5757, 6342, 1, 7200),    -- Lilly, Formula: Enchant Chest - Minor Mana
-(5758, 6342, 1, 7200),    -- Leo Sarn, Formula: Enchant Chest - Minor Mana
+(5757, 6342, 0, 0),       -- Lilly, Formula: Enchant Chest - Minor Mana
+(5758, 6342, 0, 0),       -- Leo Sarn, Formula: Enchant Chest - Minor Mana
 (5814, 2511, 0, 0),       -- Innkeeper Thulbek, Hunter's Boomstick
 (5817, 2692, 0, 0),       -- Shimra, Hot Spices
 (5817, 2928, 0, 0),       -- Shimra, Dust of Decay
@@ -1304,7 +1304,7 @@ INSERT INTO `npc_vendor` (`entry`, `item`, `maxcount`, `incrtime`) VALUES
 (6779, 8923, 0, 0),       -- Smudge Thunderwood, Essence of Agony
 (6779, 8924, 0, 0),       -- Smudge Thunderwood, Dust of Deterioration
 (6779, 8925, 0, 0),       -- Smudge Thunderwood, Crystal Vial
-(7940, 14488, 1, 3600),   -- Darnall, Pattern: Runecloth Boots
+(7940, 14488, 0, 0),      -- Darnall, Pattern: Runecloth Boots
 (7942, 4471, 0, 0),       -- Faralorn, Flint and Tinder
 (7947, 2692, 0, 0),       -- Vivianna, Hot Spices
 (7947, 2928, 0, 0),       -- Vivianna, Dust of Decay
@@ -1382,9 +1382,9 @@ INSERT INTO `npc_vendor` (`entry`, `item`, `maxcount`, `incrtime`) VALUES
 (10367, 4608, 0, 0),      -- Shrye Ragefist, Raw Black Truffle
 (10367, 21552, 0, 0),     -- Shrye Ragefist, Striped Yellowtail
 (11038, 4471, 0, 0),      -- Caretaker Alen, Flint and Tinder
-(11185, 16047, 1, 10800), -- Xizzer Fizzbolt, Schematic: Thorium Tube
-(11188, 13480, 1, 7200),  -- Evie Whirlbrew, Recipe: Major Healing Potion
-(11189, 14481, 1, 3600),  -- Qia, Pattern: Runecloth Gloves
+(11185, 16047, 0, 0),     -- Xizzer Fizzbolt, Schematic: Thorium Tube
+(11188, 13480, 0, 0),     -- Evie Whirlbrew, Recipe: Major Healing Potion
+(11189, 14481, 0, 0),     -- Qia, Pattern: Runecloth Gloves
 (11189, 2692, 0, 0),      -- Qia, Hot Spices
 (11189, 2928, 0, 0),      -- Qia, Dust of Decay 
 (11189, 3713, 0, 0),      -- Qia, Soothing Spices
@@ -1414,7 +1414,7 @@ INSERT INTO `npc_vendor` (`entry`, `item`, `maxcount`, `incrtime`) VALUES
 (12941, 2928, 0, 0),      -- Jase Farlane, Dust of Decay
 (12941, 3713, 0, 0),      -- Jase Farlane, Soothing Spices
 (12941, 3777, 0, 0),      -- Jase Farlane, Lethargy Root
-(12941, 15756, 1, 3600),  -- Jase Farlane, Pattern: Runic Leather Headband
+(12941, 15756, 0, 0),     -- Jase Farlane, Pattern: Runic Leather Headband
 (12957, 2692, 0, 0),      -- Blimo Gadgetspring, Hot Spices
 (12957, 2928, 0, 0),      -- Blimo Gadgetspring, Dust of Decay
 (12957, 3713, 0, 0),      -- Blimo Gadgetspring, Soothing Spices
@@ -1467,4 +1467,4 @@ INSERT INTO `npc_vendor` (`entry`, `item`, `maxcount`, `incrtime`) VALUES
 (15179, 2928, 0, 0),      -- Mishta, Dust of Decay
 (15179, 3713, 0, 0),      -- Mishta, Soothing Spices
 (15179, 3777, 0, 0),      -- Mishta, Lethargy Root
-(15419, 6342, 1, 7200);   -- Kania, Formula: Enchant Chest - Minor Mana
+(15419, 6342, 0, 0);      -- Kania, Formula: Enchant Chest - Minor Mana
