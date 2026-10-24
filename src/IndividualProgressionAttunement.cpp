@@ -1,10 +1,13 @@
 #include "IndividualProgressionAttunement.h"
 #include "Config.h"
+#include "DatabaseEnv.h"
 #include "DBCStores.h"
 #include "IndividualProgression.h"
 #include "Log.h"
 #include "Player.h"
 #include "ScriptMgr.h"
+#include "StringFormat.h"
+#include "WorldSession.h"
 
 namespace
 {
@@ -17,6 +20,7 @@ namespace
     // variable cache isn't safe to fill from several threads at once.
     uint32 onyxiaAchievement = 0;
     uint32 upperBlackrockSpireAchievement = 0;
+    bool accountWide = false;
 
     bool HasAchievement(Player* player, uint32 id)
     {
@@ -49,6 +53,40 @@ namespace
 
         player->CompletedAchievement(entry);
     }
+
+    // Alts: when another character on the account has the attunement achievement, this one gets it too.
+    // Only the achievement is looked at: a character who did the quest gets it at its own login.
+    void AwardFromAccount(Player* player)
+    {
+        std::string ids;
+        for (uint32 id : { onyxiaAchievement, upperBlackrockSpireAchievement })
+            if (id && !player->HasAchieved(id))
+                ids += (ids.empty() ? "" : ",") + std::to_string(id);
+
+        if (ids.empty())
+            return;
+
+        // The callback belongs to the session, so the session outlives it; the player may not (logout).
+        WorldSession* session = player->GetSession();
+        ObjectGuid guid = player->GetGUID();
+        session->GetQueryProcessor().AddCallback(CharacterDatabase.AsyncQuery(Acore::StringFormat(
+            "SELECT DISTINCT a.achievement FROM character_achievement a JOIN characters c ON c.guid = a.guid "
+            "WHERE c.account = {} AND c.guid <> {} AND a.achievement IN ({})",
+            session->GetAccountId(), guid.GetCounter(), ids)).WithCallback([session, guid](QueryResult result)
+        {
+            if (!result)
+                return;
+
+            // Not ObjectAccessor::FindPlayer: that misses a player in the middle of a teleport.
+            Player* player = session->GetPlayer();
+            if (!player || player->GetGUID() != guid)
+                return;
+
+            do
+                AwardIfQuestDone(player, result->Fetch()[0].Get<uint16>(), true);
+            while (result->NextRow());
+        }));
+    }
 }
 
 bool IPAttunement::Onyxia(Player* player)
@@ -70,6 +108,7 @@ public:
     {
         onyxiaAchievement = sConfigMgr->GetOption<uint32>("IndividualProgression.Attunement.OnyxiaAchievement", 0);
         upperBlackrockSpireAchievement = sConfigMgr->GetOption<uint32>("IndividualProgression.Attunement.UpperBlackrockSpireAchievement", 0);
+        accountWide = sConfigMgr->GetOption<bool>("IndividualProgression.Attunement.AccountWide", false);
     }
 };
 
@@ -90,6 +129,9 @@ public:
         {
             AwardIfQuestDone(player, onyxiaAchievement, OnyxiaQuestDone(player));
             AwardIfQuestDone(player, upperBlackrockSpireAchievement, UpperBlackrockSpireQuestDone(player));
+
+            if (accountWide)
+                AwardFromAccount(player);
         }, 1s);
     }
 };
