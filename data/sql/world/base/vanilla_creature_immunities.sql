@@ -508,3 +508,9 @@ UPDATE `creature_template` SET `CreatureImmunitiesId` = -10227 WHERE `entry` IN 
 UPDATE `creature_template` SET `CreatureImmunitiesId` = -10228 WHERE `entry` IN (8278);
 UPDATE `creature_template` SET `CreatureImmunitiesId` = -10232 WHERE `entry` IN (15922);
 UPDATE `creature_template` SET `CreatureImmunitiesId` = -10233 WHERE `entry` IN (15276); -- Emperor Vek'lor
+
+-- Fork only (buildthehomelab): bleeds (Rip, Rake, Rupture, Garrote, Rend, Deep Wounds, Lacerate,
+-- Pounce) work on every creature. Clears the BLEED mechanic (bit 15) from every immunity row,
+-- AzerothCore's own included (several are assigned above, e.g. -68 and -116); every other
+-- immunity stays. At the end of this file so it runs again whenever the file is re-applied.
+UPDATE `creature_immunities` SET `MechanicsMask` = `MechanicsMask` & ~(1 << 15) WHERE `MechanicsMask` & (1 << 15);
