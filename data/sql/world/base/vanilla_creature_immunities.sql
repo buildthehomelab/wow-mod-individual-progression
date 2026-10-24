@@ -508,3 +508,38 @@ UPDATE `creature_template` SET `CreatureImmunitiesId` = -10227 WHERE `entry` IN 
 UPDATE `creature_template` SET `CreatureImmunitiesId` = -10228 WHERE `entry` IN (8278);
 UPDATE `creature_template` SET `CreatureImmunitiesId` = -10232 WHERE `entry` IN (15922);
 UPDATE `creature_template` SET `CreatureImmunitiesId` = -10233 WHERE `entry` IN (15276); -- Emperor Vek'lor
+
+-- Fork only (buildthehomelab): bleeds (Rip, Rake, Rupture, Garrote, Rend, Deep Wounds, Lacerate,
+-- Pounce) work on every creature except the 70 that AzerothCore itself makes bleed-immune (the entry
+-- list below: its base creature_template + creature_immunities plus the updates up to 2026_10_16).
+-- Every other immunity stays. Keep this block last when merging upstream: it runs again whenever this
+-- file is re-applied. IDs: core rows -1..-9999, this file's rows -10000..-19999, fork copies at
+-- ID - 20000 (-20001..-39999).
+
+-- Start over: creatures on fork copies go back to the row they were copied from.
+UPDATE `creature_template` SET `CreatureImmunitiesId` = `CreatureImmunitiesId` + 20000 WHERE `CreatureImmunitiesId` BETWEEN -39999 AND -20001;
+DELETE FROM `creature_immunities` WHERE `ID` BETWEEN -39999 AND -20001;
+
+-- The core's bleed-immune creatures that this file moved onto its own rows get a copy of that row with BLEED.
+INSERT INTO `creature_immunities` (`ID`,`SchoolMask`,`DispelTypeMask`,`MechanicsMask`,`Effects`,`Auras`,`ImmuneAoE`,`ImmuneChain`,`Comment`)
+SELECT `ID` - 20000, `SchoolMask`, `DispelTypeMask`, `MechanicsMask` | 32768, `Effects`, `Auras`, `ImmuneAoE`, `ImmuneChain`, CONCAT('Fork, with BLEED: ', `Comment`)
+FROM `creature_immunities` WHERE `ID` BETWEEN -19999 AND -10000
+  AND `ID` IN (SELECT `CreatureImmunitiesId` FROM `creature_template` WHERE `entry` IN (2667,2671,6021,7076,7077,7309,8317,8376,8816,9299,9657,10988,11561,13116,13117,14302,14401,14503,14662,14663,14664,14666,14862,15047,15104,15108,15193,15224,15286,15288,15290,15429,15631,15698,15706,15904,15910,15922,15964,15973,16336,16338,16486,16511,17990,20189,21346,21612,22250,22526,22558,22849,24175,24238,26688,28443,30183,31920,32004,32386,32398,32400,32438,36980,37236,37323,38028,38320,38321,38322));
+
+-- Everything else on a core row with BLEED (this file puts many there, e.g. -68, which is BLEED only,
+-- and -116) gets a copy of that row without BLEED.
+INSERT INTO `creature_immunities` (`ID`,`SchoolMask`,`DispelTypeMask`,`MechanicsMask`,`Effects`,`Auras`,`ImmuneAoE`,`ImmuneChain`,`Comment`)
+SELECT `ID` - 20000, `SchoolMask`, `DispelTypeMask`, `MechanicsMask` - 32768, `Effects`, `Auras`, `ImmuneAoE`, `ImmuneChain`, CONCAT('Fork, without BLEED: ', `Comment`)
+FROM `creature_immunities` WHERE `ID` BETWEEN -9999 AND -1 AND `MechanicsMask` & 32768
+  AND `ID` IN (SELECT `CreatureImmunitiesId` FROM `creature_template` WHERE `entry` NOT IN (2667,2671,6021,7076,7077,7309,8317,8376,8816,9299,9657,10988,11561,13116,13117,14302,14401,14503,14662,14663,14664,14666,14862,15047,15104,15108,15193,15224,15286,15288,15290,15429,15631,15698,15706,15904,15910,15922,15964,15973,16336,16338,16486,16511,17990,20189,21346,21612,22250,22526,22558,22849,24175,24238,26688,28443,30183,31920,32004,32386,32398,32400,32438,36980,37236,37323,38028,38320,38321,38322));
+
+UPDATE `creature_template` SET `CreatureImmunitiesId` = `CreatureImmunitiesId` - 20000
+WHERE `entry` IN (2667,2671,6021,7076,7077,7309,8317,8376,8816,9299,9657,10988,11561,13116,13117,14302,14401,14503,14662,14663,14664,14666,14862,15047,15104,15108,15193,15224,15286,15288,15290,15429,15631,15698,15706,15904,15910,15922,15964,15973,16336,16338,16486,16511,17990,20189,21346,21612,22250,22526,22558,22849,24175,24238,26688,28443,30183,31920,32004,32386,32398,32400,32438,36980,37236,37323,38028,38320,38321,38322)
+  AND `CreatureImmunitiesId` BETWEEN -19999 AND -10000;
+
+UPDATE `creature_template` SET `CreatureImmunitiesId` = `CreatureImmunitiesId` - 20000
+WHERE `entry` NOT IN (2667,2671,6021,7076,7077,7309,8317,8376,8816,9299,9657,10988,11561,13116,13117,14302,14401,14503,14662,14663,14664,14666,14862,15047,15104,15108,15193,15224,15286,15288,15290,15429,15631,15698,15706,15904,15910,15922,15964,15973,16336,16338,16486,16511,17990,20189,21346,21612,22250,22526,22558,22849,24175,24238,26688,28443,30183,31920,32004,32386,32398,32400,32438,36980,37236,37323,38028,38320,38321,38322)
+  AND `CreatureImmunitiesId` IN (SELECT `ID` FROM `creature_immunities` WHERE `ID` BETWEEN -9999 AND -1 AND `MechanicsMask` & 32768);
+
+-- This file's rows lose BLEED.
+UPDATE `creature_immunities` SET `MechanicsMask` = `MechanicsMask` - 32768 WHERE `ID` BETWEEN -19999 AND -10000 AND `MechanicsMask` & 32768;
