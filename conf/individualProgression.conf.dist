@@ -114,6 +114,18 @@ IndividualProgression.InstancePower.GMOnly = 0
 IndividualProgression.Attunement.OnyxiaAchievement = 0
 IndividualProgression.Attunement.UpperBlackrockSpireAchievement = 0
 
+# IndividualProgression.Attunement.AccountWide
+#
+#        Description: Alts skip the attunement: at login a character gets each achievement set above that another
+#                     character on the same account already has, and with it entry to Onyxia's Lair or UBRS.
+#                     A character who did the quest before the achievement existed counts once it has logged in
+#                     (and got the achievement). Needs the achievement ids above.
+#
+#        Default:     0 - Disabled
+#                     1 - Enabled
+#
+IndividualProgression.Attunement.AccountWide = 0
+
 # IndividualProgression.QuestXPFix
 #
 #        Description: Quest XP for Vanilla and TBC quests was boosted as a catchup mechanism in patches 2.3.0 and 3.0.2
