@@ -512,5 +512,6 @@ UPDATE `creature_template` SET `CreatureImmunitiesId` = -10233 WHERE `entry` IN 
 -- Fork only (buildthehomelab): bleeds (Rip, Rake, Rupture, Garrote, Rend, Deep Wounds, Lacerate,
 -- Pounce) work on every creature. Clears the BLEED mechanic (bit 15) from every immunity row,
 -- AzerothCore's own included (several are assigned above, e.g. -68 and -116); every other
--- immunity stays. At the end of this file so it runs again whenever the file is re-applied.
-UPDATE `creature_immunities` SET `MechanicsMask` = `MechanicsMask` & ~(1 << 15) WHERE `MechanicsMask` & (1 << 15);
+-- immunity stays. At the end of this file so it runs again whenever the file is re-applied;
+-- keep it the last statement when merging upstream.
+UPDATE `creature_immunities` SET `MechanicsMask` = `MechanicsMask` - 32768 WHERE `MechanicsMask` & 32768;
