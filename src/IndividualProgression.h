@@ -432,6 +432,16 @@ public:
     void LoadAccountRegexes();
     void SyncBotsProgressionToLeader(Group* group);
     bool isAttuned(Player* player);
+
+    // Whether this character may enter an instance map (raids, Magisters' Terrace, the Frozen
+    // Halls, any Outland or Northrend instance). The teleport hook refuses entry when it fails, and
+    // Raid Finder asks before it offers a raid. message is empty when the refusal is silent.
+    struct InstanceAccess
+    {
+        bool allowed = true;
+        std::string message;
+    };
+    InstanceAccess CheckInstanceAccess(Player* player, uint32 mapId);
     bool isPlayerInDungeonOrRaid(Player* player);
     void checkIPPhasing(Player* player, uint32 newArea);
     void checkIPProgression(Player* player);

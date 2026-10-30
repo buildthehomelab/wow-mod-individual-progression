@@ -6,6 +6,7 @@
 #include "IndividualProgressionAttunement.h"
 #include "naxxramas_40.h"
 #include "ReputationMgr.h"
+#include "StringFormat.h"
 
 IndividualProgression* IndividualProgression::instance()
 {
@@ -356,6 +357,115 @@ bool IndividualProgression::hasCustomProgressionValue(uint32 creatureEntry)
         return false;
 
     return (customProgressionMap.find(creatureEntry) != customProgressionMap.end());
+}
+
+IndividualProgression::InstanceAccess IndividualProgression::CheckInstanceAccess(Player* player, uint32 mapId)
+{
+    if (!player || !enabled || player->IsGameMaster() || !isNormalAccount(player))
+        return {};
+
+    auto deny = [](std::string message = "") { return InstanceAccess{ false, std::move(message) }; };
+    auto stage = [&](uint32 required) { return deny(Acore::StringFormat("Progression Level Required = |cff00ffff{}|r", required)); };
+
+    switch (mapId)
+    {
+        case MAP_BLACKWING_LAIR:
+            if (!hasPassedProgression(player, PROGRESSION_MOLTEN_CORE))
+                return stage(PROGRESSION_MOLTEN_CORE);
+            break;
+        case MAP_ONYXIAS_LAIR:
+            if (player->GetLevel() <= 70) // vanilla version
+            {
+                if (player->GetLevel() < 50)
+                    return deny();
+                if (hasPassedProgression(player, PROGRESSION_TBC_TIER_5)) // death knights
+                    return deny();
+                if (!IPAttunement::Onyxia(player))
+                    return deny();
+            }
+            else if (player->GetLevel() != 80) // WotLK
+                return deny();
+            break;
+        case MAP_ZUL_GURUB:
+            if (GetPlayerProgressionFromQuests(player) < static_cast<uint32>(RequiredZulGurubProgression))
+                return stage(RequiredZulGurubProgression);
+            break;
+        case MAP_AHN_QIRAJ_TEMPLE:
+        case MAP_RUINS_OF_AHN_QIRAJ:
+            if (!hasPassedProgression(player, PROGRESSION_PRE_AQ))
+                return stage(PROGRESSION_PRE_AQ);
+            break;
+        case MAP_ZUL_AMAN:
+            if (GetPlayerProgressionFromQuests(player) < static_cast<uint32>(RequiredZulAmanProgression))
+                return stage(RequiredZulAmanProgression);
+            break;
+        case MAP_ULDUAR:
+            if (!hasPassedProgression(player, PROGRESSION_WOTLK_TIER_1))
+                return stage(PROGRESSION_WOTLK_TIER_1);
+            break;
+        case MAP_TRIAL_OF_THE_CHAMPION:
+        case MAP_TRIAL_OF_THE_CRUSADER:
+            if (!hasPassedProgression(player, PROGRESSION_WOTLK_TIER_2))
+                return stage(PROGRESSION_WOTLK_TIER_2);
+            break;
+        // This will also restrict other Frozen Halls dungeons, because Forge of Souls must be completed first to access them
+        case MAP_ICECROWN_CITADEL:
+        case MAP_THE_FORGE_OF_SOULS:
+            if (!hasPassedProgression(player, PROGRESSION_WOTLK_TIER_3))
+                return stage(PROGRESSION_WOTLK_TIER_3);
+            break;
+        case MAP_THE_RUBY_SANCTUM:
+            if (!hasPassedProgression(player, PROGRESSION_WOTLK_TIER_4))
+                return stage(PROGRESSION_WOTLK_TIER_4);
+            break;
+        case MAP_MAGISTERS_TERRACE:
+        case MAP_THE_SUNWELL:
+            if (!hasPassedProgression(player, PROGRESSION_TBC_TIER_4))
+                return stage(PROGRESSION_TBC_TIER_4);
+            break;
+        case MAP_TEMPEST_KEEP:
+            if (!hasPassedProgression(player, PROGRESSION_TBC_TIER_1))
+                return stage(PROGRESSION_TBC_TIER_1);
+            if (!player->HasItemCount(ITEM_TEMPEST_KEY))
+                return deny("You must possess the Tempest Key to enter The Eye.");
+            if (player->GetQuestStatus(TRIAL_MAGTHERIDON) != QUEST_STATUS_REWARDED)
+                return deny("You must complete the quest Trial of the Naaru: Magtheridon to enter The Eye.");
+            break;
+        case MAP_COILFANG_SERPENTSHRINE_CAVERN:
+            if (!hasPassedProgression(player, PROGRESSION_TBC_TIER_1))
+                return stage(PROGRESSION_TBC_TIER_1);
+            if (player->GetQuestStatus(CUDGEL_OF_KARDESH) != QUEST_STATUS_REWARDED)
+                return deny("You must complete the quest The Cudgel of Kar'desh to enter Serpentshrine Reservoir.");
+            break;
+        case MAP_THE_BATTLE_FOR_MOUNT_HYJAL:
+            if (!hasPassedProgression(player, PROGRESSION_TBC_TIER_2))
+                return stage(PROGRESSION_TBC_TIER_2);
+            if (player->GetQuestStatus(VIALS_OF_ETERNITY) != QUEST_STATUS_REWARDED)
+                return deny("You must complete the quest The Vials of Eternity to enter the Battle of Mount Hyjal.");
+            break;
+        case MAP_BLACK_TEMPLE:
+            if (!hasPassedProgression(player, PROGRESSION_TBC_TIER_2))
+                return stage(PROGRESSION_TBC_TIER_2);
+            if (!player->HasItemCount(ITEM_MEDALLION_OF_KARABOR) && !player->HasItemCount(ITEM_BLESSED_MEDALLION_OF_KARABOR))
+                return deny("You must possess the Medallion of Karabor to enter the Black Temple.");
+            break;
+        default:
+            break;
+    }
+
+    if (InstanceTemplate const* instanceTemplate = sObjectMgr->GetInstanceTemplate(mapId))
+    {
+        if (instanceTemplate->Parent == MAP_OUTLAND && !hasPassedProgression(player, PROGRESSION_PRE_TBC))
+            return deny();
+
+        if (instanceTemplate->Parent == MAP_NORTHREND && mapId != MAP_NAXXRAMAS && !hasPassedProgression(player, PROGRESSION_TBC_TIER_5))
+            return deny();
+
+        if (instanceTemplate->Parent == MAP_NORTHREND && mapId == MAP_NAXXRAMAS && player->GetLevel() <= 70 && (!isAttuned(player) || hasPassedProgression(player, PROGRESSION_TBC_TIER_5)))
+            return deny();
+    }
+
+    return {};
 }
 
 bool IndividualProgression::isAttuned(Player* player)

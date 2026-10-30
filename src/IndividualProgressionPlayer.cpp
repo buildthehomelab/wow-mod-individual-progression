@@ -593,49 +593,6 @@ public:
         if (!sIndividualProgression->enabled || player->IsGameMaster() || !sIndividualProgression->isNormalAccount(player))
             return true;
 
-        if (mapid == MAP_BLACKWING_LAIR && !sIndividualProgression->hasPassedProgression(player, PROGRESSION_MOLTEN_CORE))
-        {
-            ChatHandler(player->GetSession()).PSendSysMessage("Progression Level Required = |cff00ffff{}|r", PROGRESSION_MOLTEN_CORE);
-            return false;
-        }
-        if (mapid == MAP_ONYXIAS_LAIR)
-        {
-            if (player->GetLevel() <= 70) // vanilla version
-            {
-                if (player->GetLevel() < 50)
-                    return false;
-                if (sIndividualProgression->hasPassedProgression(player, PROGRESSION_TBC_TIER_5)) // death knights
-                    return false;
-                if (!IPAttunement::Onyxia(player))
-                    return false;
-            }
- 			else // WotLK
-            {
-                if (player->GetLevel() != 80)
-                    return false;
-            }
-        }
-        if (mapid == MAP_ZUL_GURUB)
-        {
-            uint32 PLAYER_PROGRESSION = sIndividualProgression->GetPlayerProgressionFromQuests(player);
-            ProgressionState REQUIRED_ZG_PROGRESSION = static_cast<ProgressionState>(sIndividualProgression->RequiredZulGurubProgression);
-
-            if (PLAYER_PROGRESSION < REQUIRED_ZG_PROGRESSION)
-            {
-                ChatHandler(player->GetSession()).PSendSysMessage("Progression Level Required = |cff00ffff{}|r", REQUIRED_ZG_PROGRESSION);
-                return false;
-            }
-        }
-        if (mapid == MAP_AHN_QIRAJ_TEMPLE && !sIndividualProgression->hasPassedProgression(player, PROGRESSION_PRE_AQ))
-        {
-            ChatHandler(player->GetSession()).PSendSysMessage("Progression Level Required = |cff00ffff{}|r", PROGRESSION_PRE_AQ);
-            return false;
-        }
-        if (mapid == MAP_RUINS_OF_AHN_QIRAJ && !sIndividualProgression->hasPassedProgression(player, PROGRESSION_PRE_AQ))
-        {
-            ChatHandler(player->GetSession()).PSendSysMessage("Progression Level Required = |cff00ffff{}|r", PROGRESSION_PRE_AQ);
-            return false;
-        }
         if (mapid == MAP_OUTLAND)
         {
             if (!sIndividualProgression->hasPassedProgression(player, PROGRESSION_PRE_TBC))
@@ -658,17 +615,6 @@ public:
             if (!sIndividualProgression->hasPassedProgression(player, PROGRESSION_TBC_TIER_4) && zoneId == AREA_ISLE_OF_QUEL_DANAS)
             {
                 ChatHandler(player->GetSession()).PSendSysMessage("Progression Level Required = |cff00ffff{}|r", PROGRESSION_TBC_TIER_4);
-                return false;
-            }
-        }
-        if (mapid == MAP_ZUL_AMAN)
-        {
-            uint32 PLAYER_PROGRESSION = sIndividualProgression->GetPlayerProgressionFromQuests(player);
-            ProgressionState REQUIRED_ZA_PROGRESSION = static_cast<ProgressionState>(sIndividualProgression->RequiredZulAmanProgression);
-
-            if (PLAYER_PROGRESSION < REQUIRED_ZA_PROGRESSION)
-            {
-                ChatHandler(player->GetSession()).PSendSysMessage("Progression Level Required = |cff00ffff{}|r", REQUIRED_ZA_PROGRESSION);
                 return false;
             }
         }
@@ -715,109 +661,10 @@ public:
             ChatHandler(player->GetSession()).PSendSysMessage("Progression Level Required = |cff00ffff{}|r", PROGRESSION_TBC_TIER_5);
             return false;
         }
-        if (mapid == MAP_ULDUAR && !sIndividualProgression->hasPassedProgression(player, PROGRESSION_WOTLK_TIER_1))
-        {
-            ChatHandler(player->GetSession()).PSendSysMessage("Progression Level Required = |cff00ffff{}|r", PROGRESSION_WOTLK_TIER_1);
-            return false;
-        }
-        if ((mapid == MAP_TRIAL_OF_THE_CHAMPION || mapid == MAP_TRIAL_OF_THE_CRUSADER) && !sIndividualProgression->hasPassedProgression(player, PROGRESSION_WOTLK_TIER_2))
-        {
-            ChatHandler(player->GetSession()).PSendSysMessage("Progression Level Required = |cff00ffff{}|r", PROGRESSION_WOTLK_TIER_2);
-            return false;
-        }
-        // This will also restrict other Frozen Halls dungeons, because Forge of Souls must be completed first to access them
-        if ((mapid == MAP_ICECROWN_CITADEL || mapid == MAP_THE_FORGE_OF_SOULS) && !sIndividualProgression->hasPassedProgression(player, PROGRESSION_WOTLK_TIER_3))
-        {
-            ChatHandler(player->GetSession()).PSendSysMessage("Progression Level Required = |cff00ffff{}|r", PROGRESSION_WOTLK_TIER_3);
-            return false;
-        }
-        if (mapid == MAP_THE_RUBY_SANCTUM && !sIndividualProgression->hasPassedProgression(player, PROGRESSION_WOTLK_TIER_4))
-        {
-            ChatHandler(player->GetSession()).PSendSysMessage("Progression Level Required = |cff00ffff{}|r", PROGRESSION_WOTLK_TIER_4);
-            return false;
-        }
-        if (mapid == MAP_MAGISTERS_TERRACE && !sIndividualProgression->hasPassedProgression(player, PROGRESSION_TBC_TIER_4))
-        {
-            ChatHandler(player->GetSession()).PSendSysMessage("Progression Level Required = |cff00ffff{}|r", PROGRESSION_TBC_TIER_4);
-            return false;
-        }
-        if (mapid == MAP_THE_SUNWELL && !sIndividualProgression->hasPassedProgression(player, PROGRESSION_TBC_TIER_4))
-        {
-            ChatHandler(player->GetSession()).PSendSysMessage("Progression Level Required = |cff00ffff{}|r", PROGRESSION_TBC_TIER_4);
-            return false;
-        }
-        if (mapid == MAP_TEMPEST_KEEP)
-        {
-            if (!sIndividualProgression->hasPassedProgression(player, PROGRESSION_TBC_TIER_1))
-            {
-                ChatHandler(player->GetSession()).PSendSysMessage("Progression Level Required = |cff00ffff{}|r", PROGRESSION_TBC_TIER_1);
-                return false;
-            }
- 			else if (!player->HasItemCount(ITEM_TEMPEST_KEY))
-            {
-                ChatHandler(player->GetSession()).PSendSysMessage("You must possess the Tempest Key to enter The Eye.");
-                return false;
-            }
- 			else if (player->GetQuestStatus(TRIAL_MAGTHERIDON) != QUEST_STATUS_REWARDED)
-            {
-                ChatHandler(player->GetSession()).PSendSysMessage("You must complete the quest Trial of the Naaru: Magtheridon to enter The Eye.");
-                return false;
-            }
-        }
-        if (mapid == MAP_COILFANG_SERPENTSHRINE_CAVERN)
-        {
-            if (!sIndividualProgression->hasPassedProgression(player, PROGRESSION_TBC_TIER_1))
-            {
-                ChatHandler(player->GetSession()).PSendSysMessage("Progression Level Required = |cff00ffff{}|r", PROGRESSION_TBC_TIER_1);
-                return false;
-            }
- 			else if (player->GetQuestStatus(CUDGEL_OF_KARDESH) != QUEST_STATUS_REWARDED)
-            {
-                ChatHandler(player->GetSession()).PSendSysMessage("You must complete the quest The Cudgel of Kar\'desh to enter Serpentshrine Reservoir.");
-                return false;
-            }
-        }
-        if (mapid == MAP_THE_BATTLE_FOR_MOUNT_HYJAL)
-        {
-            if (!sIndividualProgression->hasPassedProgression(player, PROGRESSION_TBC_TIER_2))
-            {
-                ChatHandler(player->GetSession()).PSendSysMessage("Progression Level Required = |cff00ffff{}|r", PROGRESSION_TBC_TIER_2);
-                return false;
-            }
- 			else if (player->GetQuestStatus(VIALS_OF_ETERNITY) != QUEST_STATUS_REWARDED)
-            {
-                ChatHandler(player->GetSession()).PSendSysMessage("You must complete the quest The Vials of Eternity to enter the Battle of Mount Hyjal.");
-                return false;
-            }
-        }
-        if (mapid == MAP_BLACK_TEMPLE)
-        {
-            if (!sIndividualProgression->hasPassedProgression(player, PROGRESSION_TBC_TIER_2))
-            {
-                ChatHandler(player->GetSession()).PSendSysMessage("Progression Level Required = |cff00ffff{}|r", PROGRESSION_TBC_TIER_2);
-                return false;
-            }
- 			else if (!player->HasItemCount(ITEM_MEDALLION_OF_KARABOR) && !player->HasItemCount(ITEM_BLESSED_MEDALLION_OF_KARABOR))
-            {
-                ChatHandler(player->GetSession()).PSendSysMessage("You must possess the Medallion of Karabor to enter the Black Temple.");
-                return false;
-            }
-        }
-
-        InstanceTemplate const* instanceTemplate = sObjectMgr->GetInstanceTemplate(mapid);
-        if (instanceTemplate)
-        {
-            if (instanceTemplate->Parent == MAP_OUTLAND && !sIndividualProgression->hasPassedProgression(player, PROGRESSION_PRE_TBC))
-                return false;
-
-            if (instanceTemplate->Parent == MAP_NORTHREND && mapid != MAP_NAXXRAMAS && !sIndividualProgression->hasPassedProgression(player, PROGRESSION_TBC_TIER_5))
-                return false;
-
-            if (instanceTemplate->Parent == MAP_NORTHREND && mapid == MAP_NAXXRAMAS && player->GetLevel() <= 70 && (!sIndividualProgression->isAttuned(player) ||  sIndividualProgression->hasPassedProgression(player, PROGRESSION_TBC_TIER_5) ))
-                return false;
-        }
-
-        return true;
+        IndividualProgression::InstanceAccess const access = sIndividualProgression->CheckInstanceAccess(player, mapid);
+        if (!access.allowed && !access.message.empty())
+            ChatHandler(player->GetSession()).SendSysMessage(access.message);
+        return access.allowed;
     }
 
     void OnPlayerCompleteQuest(Player* player, Quest const* quest) override
