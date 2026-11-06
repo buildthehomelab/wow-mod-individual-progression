@@ -236,7 +236,6 @@ INSERT INTO `conditions` (`SourceTypeOrReferenceId`, `SourceGroup`, `SourceEntry
 (23, 3490,  43234, 0, 0, 8, 0, 66013, 0, 0, 0, 0, 0, '', 'Hula\'mahi - Wound Poison VI'),
 (23, 3490,  43235, 0, 0, 8, 0, 66013, 0, 0, 0, 0, 0, '', 'Hula\'mahi - Wound Poison VII'),
 (23, 3490,  43237, 0, 0, 8, 0, 66013, 0, 0, 0, 0, 0, '', 'Hula\'mahi - Anesthetic Poison II'),
-(23, 3495,  14639, 0, 0, 8, 0, 66008, 0, 0, 0, 0, 0, '', 'Gagsprocket - Schematic: Minor Recombobulator'),
 (23, 3495,  39684, 0, 0, 8, 0, 66013, 0, 0, 0, 0, 0, '', 'Gagsprocket - Hair Trigger'),
 (23, 3495,  40533, 0, 0, 8, 0, 66013, 0, 0, 0, 0, 0, '', 'Gagsprocket - Walnut Stock'),
 (23, 3499,  39354, 0, 0, 8, 0, 66013, 0, 0, 0, 0, 0, '', 'Ranik - Light Parchment'),
